@@ -1,4 +1,4 @@
-package ncherevko.moneytransfer.model;
+package ncherevko.moneytransfer.persistance.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;

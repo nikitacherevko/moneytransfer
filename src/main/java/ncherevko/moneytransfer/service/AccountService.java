@@ -1,7 +1,8 @@
 package ncherevko.moneytransfer.service;
 
-import ncherevko.moneytransfer.model.Account;
+import ncherevko.moneytransfer.api.response.TransferResponse;
 import ncherevko.moneytransfer.persistance.PersistanceManager;
+import ncherevko.moneytransfer.persistance.model.Account;
 import ncherevko.moneytransfer.persistance.repository.AccountRepository;
 import ncherevko.moneytransfer.persistance.repository.impl.AccountRepositoryImpl;
 
@@ -20,7 +21,12 @@ public class AccountService {
         accountRepository.saveAccount(account);
     }
 
-    public void transfer(String sender, String receiver, BigDecimal amount) {
-        accountRepository.transfer(sender, receiver, amount);
+    public TransferResponse transfer(String sender, String receiver, BigDecimal amount) {
+        try {
+            accountRepository.transfer(sender, receiver, amount);
+            return TransferResponse.success();
+        } catch (Exception e) {
+            return new TransferResponse(false, e.getMessage());
+        }
     }
 }

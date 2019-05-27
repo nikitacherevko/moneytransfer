@@ -1,9 +1,10 @@
 package ncherevko.moneytransfer.persistance.repository.impl;
 
-import ncherevko.moneytransfer.model.Account;
+import ncherevko.moneytransfer.persistance.model.Account;
 import ncherevko.moneytransfer.persistance.PersistanceManager;
 import ncherevko.moneytransfer.persistance.Session;
 import ncherevko.moneytransfer.persistance.exception.QueryExecutionException;
+import ncherevko.moneytransfer.persistance.exception.TransferFailedException;
 import ncherevko.moneytransfer.persistance.repository.AccountRepository;
 import ncherevko.moneytransfer.persistance.repository.GenericRepository;
 import org.slf4j.Logger;
@@ -111,7 +112,7 @@ public class AccountRepositoryImpl extends GenericRepository<Account> implements
     }
 
     @Override
-    public void transfer(String sender, String target, BigDecimal amount) {
+    public void transfer(String sender, String target, BigDecimal amount) throws TransferFailedException {
         try {
             transactionManager.doInTransaction(() -> {
                 Account source = getByName(sender)
@@ -132,7 +133,7 @@ public class AccountRepositoryImpl extends GenericRepository<Account> implements
                 updateAccount(destination);
             });
         } catch (SQLException ex) {
-            log.error("Failed to transfer money", ex);
+            throw new TransferFailedException(ex);
         }
     }
 

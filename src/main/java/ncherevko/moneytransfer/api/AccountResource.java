@@ -1,12 +1,12 @@
 package ncherevko.moneytransfer.api;
 
-import ncherevko.moneytransfer.model.Account;
+import ncherevko.moneytransfer.api.response.TransferResponse;
+import ncherevko.moneytransfer.persistance.model.Account;
 import ncherevko.moneytransfer.service.AccountService;
 
 import java.math.BigDecimal;
 import java.util.List;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.PATCH;
 import javax.ws.rs.POST;
@@ -39,9 +39,9 @@ public class AccountResource {
     @PATCH
     @Path("/{name}/transfer")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addAccount(@PathParam("name") String sender, @QueryParam("receiver") String receiver,
-                               @QueryParam("amount") BigDecimal amount) {
-        accountService.transfer(sender, receiver, amount);
-        return Response.status(Status.OK).build();
+    @Produces(MediaType.APPLICATION_JSON)
+    public TransferResponse addAccount(@PathParam("name") String sender, @QueryParam("receiver") String receiver,
+                                       @QueryParam("amount") BigDecimal amount) {
+        return accountService.transfer(sender, receiver, amount);
     }
 }
