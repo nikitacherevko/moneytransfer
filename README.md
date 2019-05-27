@@ -2,7 +2,7 @@
 
 ### To start the application please execute following commands:
 - mvn install
-- mvn mvn exec:java
+- mvn exec:java
 
 ### To run the tests please use this command:
 - mvn test
